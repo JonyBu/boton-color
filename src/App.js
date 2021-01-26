@@ -1,82 +1,106 @@
-import React from 'react';
-import boton from './Imagenes/power-button.png'
+import React from "react";
+import boton from "./Imagenes/power-button.png";
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
       user: undefined,
-      color: 'white',
+      color: "white",
       time: 60,
-      display: 'none'
-    }
-    this.detener = this.detener.bind(this)
+      display: "none",
+    };
+    this.detener = this.detener.bind(this);
   }
 
   setColor = (time, user) => {
-    let color = this.state.color
+    let color = this.state.color;
     if (time > 51 && time < 61) {
-      color = 'purple';
+      color = "purple";
     } else if (time < 52 && time > 41) {
-      color = 'blue';
+      color = "blue";
     } else if (time < 42 && time > 31) {
-      color = 'green'
+      color = "green";
     } else if (time < 32 && time > 21) {
-      color = 'yellow'
+      color = "yellow";
     } else if (time < 22 && time > 11) {
-      color = 'orange'
+      color = "orange";
     } else if (time < 12 && time > 0) {
-      color = 'red'
+      color = "red";
     } else if (time === 0) {
-      color = 'grey'
+      color = "grey";
     }
-    this.setState({ ...this.state, color: color, time: time, user: user })
-  }
+    this.setState({ ...this.state, color: color, time: time, user: user });
+  };
 
   detener = () => {
     clearInterval(this.cronometro);
-    this.setState({ display: 'block' })
-  }
+    this.setState({ display: "block" });
+  };
 
   empezar = () => {
-    let confirm = window.confirm('Desea iniciar?');
+    let confirm = window.confirm("Desea iniciar?");
     if (confirm === true) {
-      let user = 'new user';
+      let user = "new user";
       let time = this.state.time;
       this.cronometro = setInterval(() => {
         this.setColor(time, user);
         if (time !== 0) {
-          time--
+          time--;
         } else {
-          this.detener()
+          this.detener();
         }
       }, 1000);
     }
-  }
+  };
 
   onclick = () => {
-    let user = this.state.user
+    let user = this.state.user;
     console.log(this.state);
     if (user === undefined) {
       this.empezar();
     } else {
       this.detener();
     }
-  }
+  };
 
   render() {
     return (
-      <div class="media" >
-        <img onClick={this.onclick} src={boton} alt="button" className="btn" style={{ width: '20%', margin: 'auto' }} />
+      <div>
+        <div className="media">
+        <img
+          onClick={this.onclick}
+          src={boton}
+          alt="button"
+          className="btn"
+          style={{ width: "20%", margin: "auto" }}
+        />
         <p></p>
-        <div class="jumbotron" style={{ color: this.state.color, backgroundColor: '#9996', display: this.state.display }}>
-          <h1 class="mt-0">{this.state.time}</h1>
+
+        <div
+          className="jumbotron"
+          style={{
+            color: this.state.color,
+            backgroundColor: "#9996",
+            display: this.state.display,
+          }}
+        >
+          <h1 className="mt-0">{this.state.time}</h1>
           <p> {this.state.user} </p>
           <p> tu color es {this.state.color} </p>
-          <div style={{ backgroundColor: this.state.color, height: '20px' }}></div>
+          <div
+            style={{ backgroundColor: this.state.color, height: "20px" }}
+          ></div>
+        </div>
+        </div>
+       
+
+        <div className="container text-center mt-3" >
+          <h6>presiona una vez para iniciar y otra vez para detener</h6>
+          <h6>cada 10 segundos tenes un color diferente, tiempo total 1 min</h6>
         </div>
       </div>
-    )
+    );
   }
 }
 
